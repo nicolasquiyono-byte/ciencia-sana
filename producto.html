@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Producto &mdash; ciencia sana&reg;</title>
+<meta name="description" content="Ficha de producto ciencia sana: peptidos de grado investigacion y formulas de bienestar, con pureza 99%+ verificada por terceros." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #1c2b9e; --blue-deep: #141f78; --blue-soft: #f1f2fb;
+    --ink: #11163a; --paper: #ffffff; --muted: #5b6079;
+    --line: rgba(17,22,58,.12); --line-on-blue: rgba(255,255,255,.22); --r: 18px;
+    --warm: #f5efe6; --accent: #f37822; --accent-deep: #db6313;
+    --accent-soft: #fdebd3; --accent-text: #b04711;
+    --ok: #2f7a3f; --ok-soft: #e4f5e8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(28,43,158,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-on-blue); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .logo { font-size: 1.35rem; font-weight: 500; letter-spacing: -.02em; color: #fff; }
+  .logo .r { font-size: .42em; vertical-align: super; font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { color: rgba(255,255,255,.85); font-size: .98rem; font-weight: 300; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.current { color: #fff; }
+  .pill { border: 1px solid var(--line-on-blue); padding: .4rem .9rem; border-radius: 100px; font-size: .85rem; color: #fff; }
+  .menu-btn { display: none; background: none; border: 0; color: #fff; font-size: 1.6rem; cursor: pointer; }
+
+  .product { padding: 130px 0 3rem; }
+  .breadcrumb { font-size: .82rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 1.8rem; }
+  .breadcrumb a { color: var(--muted); transition: color .15s; }
+  .breadcrumb a:hover { color: var(--blue); }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+  .media-card { background: var(--warm); border-radius: 22px; aspect-ratio: 1 / 1; overflow: hidden; }
+  .media-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .info-card { border: 1px solid var(--line); border-radius: 22px; padding: 2.2rem 2.4rem 1.8rem; display: flex; flex-direction: column; }
+  .info-card h1 { font-size: clamp(2rem, 3.4vw, 2.6rem); font-weight: 400; letter-spacing: -.025em; line-height: 1.05; }
+  .info-card .dose { color: var(--muted); font-weight: 300; font-size: 1.05rem; margin-top: .35rem; }
+
+  .tags { display: flex; gap: .5rem; margin-top: 1.4rem; flex-wrap: wrap; }
+  .tag { padding: .42rem .85rem; border-radius: 100px; font-size: .76rem; font-weight: 500; line-height: 1.2; }
+  .tag.primary { color: #fff; text-transform: uppercase; letter-spacing: .09em; }
+  .tag.secondary { background: var(--accent-soft); color: var(--accent-text); }
+
+  .desc { margin-top: 1.5rem; color: var(--ink); font-weight: 300; line-height: 1.6; font-size: 1rem; max-width: 52ch; }
+  .batch { margin-top: 1.3rem; color: var(--muted); font-size: .9rem; font-weight: 300; }
+  .batch strong { font-weight: 400; color: var(--ink); }
+
+  .prices { margin-top: 1.2rem; display: flex; align-items: baseline; gap: .8rem; }
+  .prices .old { color: var(--muted); text-decoration: line-through; font-weight: 300; font-size: 1.05rem; }
+  .prices .new { color: var(--ink); font-weight: 500; font-size: 1.55rem; letter-spacing: -.01em; }
+
+  .cta-row { display: flex; gap: .6rem; margin-top: 1.4rem; }
+  .btn-coa { background: #fff; color: var(--blue); padding: .9rem 1.25rem; border-radius: 100px; font-weight: 500; font-size: .92rem; display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; border: 1px solid var(--blue); transition: background .2s, color .2s; }
+  .btn-coa:hover { background: var(--blue-soft); }
+  .btn-buy { background: var(--blue); color: #fff; padding: .9rem 1rem; border-radius: 100px; font-weight: 500; font-size: 1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 0; flex-grow: 1; transition: background .2s, transform .2s; }
+  .btn-buy:hover { background: var(--blue-deep); transform: translateY(-1px); }
+
+  .features { display: grid; grid-template-columns: repeat(3, auto); gap: 1.2rem; margin-top: 1.5rem; }
+  .feature { display: flex; align-items: center; gap: .5rem; font-size: .87rem; color: var(--muted); font-weight: 300; }
+  .feature .ic { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; color: var(--ok); flex-shrink: 0; }
+  .feature strong { font-weight: 400; color: var(--ink); }
+  .feature .sub { display: block; font-size: .78rem; color: var(--muted); line-height: 1.2; }
+
+  .payment { margin-top: 1.6rem; padding-top: 1.3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+  .payment-label { font-size: .76rem; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+  .payment-logos { display: flex; gap: .55rem; align-items: center; }
+  .pay-logo { height: 28px; padding: 0 .55rem; border-radius: 6px; font-size: .65rem; font-weight: 700; display: inline-flex; align-items: center; letter-spacing: .04em; color: #fff; }
+  .pay-logo.visa { background: #1a1f71; }
+  .pay-logo.mc { background: #fff; color: #eb001b; border: 1px solid var(--line); padding: 0 .35rem; gap: 1px; }
+  .pay-logo.mc::before { content: ""; width: 14px; height: 14px; background: #eb001b; border-radius: 50%; display: inline-block; }
+  .pay-logo.mc::after { content: ""; width: 14px; height: 14px; background: #f79e1b; border-radius: 50%; display: inline-block; margin-left: -6px; }
+  .pay-logo.mc span { display: none; }
+  .pay-logo.amex { background: #2e77bb; }
+  .pay-logo.mp { background: #00b1ea; }
+
+  .coa-section { margin-top: 1.4rem; border: 1px solid var(--line); border-radius: 22px; padding: 1.8rem 2.2rem 1.6rem; }
+  .coa-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+  .coa-head h2 { font-size: 1.25rem; font-weight: 500; letter-spacing: -.015em; }
+  .coa-head p { color: var(--muted); font-weight: 300; font-size: .92rem; margin-top: .3rem; }
+  .coa-badge { background: var(--ok-soft); color: var(--ok); padding: .35rem .85rem; border-radius: 100px; font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+  .coa-list { margin-top: 1.4rem; display: flex; flex-direction: column; gap: .65rem; }
+  .coa-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 14px; transition: border-color .2s, background .2s; cursor: pointer; }
+  .coa-item:hover { border-color: var(--accent); background: #fffaf5; }
+  .coa-item .icon-box { width: 40px; height: 40px; background: var(--accent-soft); color: var(--accent-text); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .coa-item .body { flex-grow: 1; min-width: 0; }
+  .coa-item .body strong { font-weight: 500; display: block; color: var(--ink); font-size: .98rem; }
+  .coa-item .body span { color: var(--muted); font-weight: 300; font-size: .86rem; }
+  .coa-item .link { color: var(--accent); font-weight: 500; font-size: .82rem; text-transform: uppercase; letter-spacing: .1em; white-space: nowrap; }
+  .coa-empty { color: var(--muted); font-weight: 300; font-style: italic; padding: 1.5rem 0; text-align: center; }
+
+  .specs-section { margin-top: 1.4rem; border: 1px solid var(--line); border-radius: 22px; padding: 1.8rem 2.2rem 2rem; }
+  .specs-section h2 { font-size: 1.25rem; font-weight: 500; letter-spacing: -.015em; margin-bottom: 1.3rem; }
+  .specs-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: .6rem; }
+  .specs-list li { color: var(--muted); font-weight: 300; line-height: 1.6; font-size: .95rem; padding-left: 1.4rem; position: relative; }
+  .specs-list li::before { content: ""; position: absolute; left: .25rem; top: .62rem; width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+
+  .info-blocks { margin-top: 1.4rem; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+  .info-blocks details { border-top: 1px solid var(--line); }
+  .info-blocks details:first-child { border-top: 0; }
+  .info-blocks summary { list-style: none; cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .info-blocks summary::-webkit-details-marker { display: none; }
+  .info-blocks summary .title { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); font-weight: 500; }
+  .info-blocks summary .chev { color: var(--muted); transition: transform .25s ease; flex-shrink: 0; }
+  .info-blocks details[open] summary .chev { transform: rotate(180deg); }
+  .info-blocks .body { padding: 0 2rem 1.6rem; display: flex; flex-direction: column; gap: .75rem; }
+  .info-blocks .body p { color: var(--muted); font-weight: 300; font-size: .95rem; line-height: 1.65; }
+  .info-blocks .body strong { color: var(--ink); font-weight: 500; }
+  .info-blocks .body a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .info-blocks .body a:hover { color: var(--blue); }
+
+  footer { background: var(--blue-deep); color: rgba(255,255,255,.7); padding: 70px 0 40px; font-weight: 300; margin-top: 5rem; }
+  .foot-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; }
+  .foot-brand .logo { display: inline-block; margin-bottom: 1rem; }
+  .foot-brand p { font-size: .95rem; max-width: 38ch; line-height: 1.7; }
+  .foot-brand .addr { margin-top: 1.2rem; font-size: .9rem; color: rgba(255,255,255,.55); }
+  .foot-col h4 { color: #fff; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; margin-bottom: 1.1rem; }
+  .foot-col a { display: block; padding: .35rem 0; font-size: .95rem; color: rgba(255,255,255,.7); transition: color .2s; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bot { border-top: 1px solid var(--line-on-blue); margin-top: 3rem; padding-top: 1.8rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: .85rem; color: rgba(255,255,255,.5); }
+  .disclaimer { font-size: .82rem; color: rgba(255,255,255,.4); margin-top: 1rem; max-width: 72ch; line-height: 1.6; }
+
+  .cart-trigger { position: relative; background: transparent; border: 0; color: rgba(255,255,255,.85); cursor: pointer; padding: .35rem; display: flex; transition: color .15s; margin-left: .5rem; }
+  .cart-trigger:hover { color: #fff; }
+  .cart-badge { position: absolute; top: -2px; right: -2px; background: #fff; color: var(--blue); font-size: .68rem; font-weight: 600; padding: 0 5px; border-radius: 100px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .cart-badge.hidden { display: none; }
+
+  .cart-overlay { position: fixed; inset: 0; background: rgba(17,22,58,.45); z-index: 90; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .cart-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 440px; max-width: 100vw; background: var(--paper); z-index: 100; transform: translateX(100%); transition: transform .35s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; box-shadow: -24px 0 60px rgba(17,22,58,.18); }
+  .cart-drawer.open { transform: translateX(0); }
+  .cart-head { padding: 1.2rem 1.6rem; border-bottom: 1px solid var(--line); background: var(--blue-soft); display: flex; align-items: center; justify-content: space-between; }
+  .cart-head h3 { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; color: var(--ink); }
+  .cart-count { color: var(--blue); font-weight: 600; margin-left: .25rem; }
+  .cart-close { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: .25rem; display: flex; transition: color .15s; }
+  .cart-close:hover { color: var(--ink); }
+  .cart-body { flex-grow: 1; overflow-y: auto; padding: 0 1.6rem; }
+  .cart-item { display: grid; grid-template-columns: 70px 1fr auto; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); align-items: start; }
+  .cart-item:last-child { border-bottom: 0; }
+  .cart-thumb { width: 70px; height: 70px; border-radius: 10px; overflow: hidden; background: var(--warm); }
+  .cart-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cart-info { display: flex; flex-direction: column; gap: .15rem; min-width: 0; }
+  .cart-info h4 { font-size: 1rem; font-weight: 500; color: var(--ink); letter-spacing: -.01em; }
+  .cart-info .var { color: var(--muted); font-size: .85rem; font-weight: 300; }
+  .cart-qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; margin-top: .7rem; overflow: hidden; align-self: start; }
+  .cart-qty button { background: transparent; border: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink); font-family: inherit; transition: background .15s, color .15s; }
+  .cart-qty button:hover { background: var(--blue-soft); color: var(--blue); }
+  .cart-qty .val { width: 36px; text-align: center; font-size: .9rem; font-weight: 500; }
+  .cart-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 1.4rem; height: 100%; }
+  .cart-remove { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: .2rem; transition: color .15s; }
+  .cart-remove:hover { color: #c4382a; }
+  .cart-price { font-weight: 500; color: var(--ink); font-size: 1rem; white-space: nowrap; }
+  .cart-empty { padding: 3rem 1rem; text-align: center; color: var(--muted); font-weight: 300; font-style: italic; }
+  .cart-foot { padding: 1.3rem 1.6rem; border-top: 1px solid var(--line); background: var(--blue-soft); display: flex; flex-direction: column; gap: .6rem; }
+  .cart-subtotal { display: flex; justify-content: space-between; align-items: baseline; }
+  .cart-subtotal span { font-size: .95rem; color: var(--ink); font-weight: 400; }
+  .cart-subtotal strong { font-size: 1.3rem; font-weight: 500; color: var(--ink); }
+  .cart-note { font-size: .82rem; color: var(--muted); font-weight: 300; margin-bottom: .3rem; }
+  .cart-cta { display: block; text-align: center; background: var(--blue); color: #fff; border: 0; padding: .9rem 1rem; border-radius: 100px; font-weight: 500; font-size: 1rem; cursor: pointer; transition: background .2s; font-family: inherit; text-decoration: none; }
+  .cart-cta:hover { background: var(--blue-deep); }
+  .cart-cta-2 { display: block; text-align: center; background: transparent; border: 0; color: var(--ink); padding: .55rem 0; cursor: pointer; font-size: .92rem; font-weight: 400; text-decoration: underline; text-underline-offset: 3px; font-family: inherit; transition: color .15s; }
+  .cart-cta-2:hover { color: var(--blue); }
+
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; gap: .7rem; }
+    .info-card { padding: 1.8rem 1.6rem 1.4rem; }
+  }
+  @media (max-width: 880px) {
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .menu-btn { display: block; }
+  }
+  @media (max-width: 540px) {
+    .foot-top { grid-template-columns: 1fr; }
+    .cta-row { flex-direction: column; }
+    .btn-coa, .btn-buy { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="index.html" class="logo">ciencia sana<span class="r">&reg;</span></a>
+    <nav class="nav-links">
+      <a href="catalogo.html">Cat&aacute;logo</a>
+      <a href="index.html#preguntas">Preguntas</a>
+      <a href="index.html#contacto">Contacto</a>
+      <span class="pill">&#127474;&#127485; MXN</span>
+      <button class="cart-trigger" id="cart-trigger" type="button" aria-label="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-badge hidden" id="cart-badge">0</span>
+      </button>
+    </nav>
+    <button class="menu-btn" aria-label="Men&uacute;">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="product">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="catalogo.html">Cat&aacute;logo</a></p>
+
+      <div class="layout">
+        <div class="media-card">
+          <img id="p-image" src="" alt="" />
+        </div>
+
+        <div class="info-card">
+          <h1 id="p-name"></h1>
+          <p class="dose" id="p-dose"></p>
+          <div class="tags" id="p-tags"></div>
+          <p class="desc" id="p-desc"></p>
+          <p class="batch">Lote fabricado: <strong id="p-batch"></strong></p>
+          <div class="prices"><span class="old" id="p-old"></span><span class="new" id="p-new"></span></div>
+
+          <div class="cta-row">
+            <button class="btn-coa" type="button" id="btn-coa">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              CoA
+            </button>
+            <button class="btn-buy" type="button" id="btn-buy">Agregar al carrito</button>
+          </div>
+
+          <div class="features">
+            <div class="feature">
+              <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+              <span><strong>&ge;99% Pureza</strong></span>
+            </div>
+            <div class="feature">
+              <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="10" rx="1"/><polygon points="14 10 19 10 22 13 22 17 14 17 14 10"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></span>
+              <span><strong>DHL Express</strong><span class="sub">48&ndash;72 hrs</span></span>
+            </div>
+            <div class="feature">
+              <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+              <span><strong>Hecho en M&eacute;xico</strong></span>
+            </div>
+          </div>
+
+          <div class="payment">
+            <span class="payment-label">Pago seguro</span>
+            <div class="payment-logos">
+              <span class="pay-logo visa">VISA</span>
+              <span class="pay-logo mc"><span>MC</span></span>
+              <span class="pay-logo amex">AMEX</span>
+              <span class="pay-logo mp">mercado pago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="coa-section">
+        <div class="coa-head">
+          <div>
+            <h2>Certificados de An&aacute;lisis (CoA)</h2>
+            <p>An&aacute;lisis por lote &mdash; HPLC + espectrometr&iacute;a de masas</p>
+          </div>
+          <span class="coa-badge" id="p-verified">Verificado</span>
+        </div>
+        <div class="coa-list" id="p-coas"></div>
+      </div>
+
+      <div class="specs-section" id="specs-section">
+        <h2>Especificaciones t&eacute;cnicas</h2>
+        <ul class="specs-list" id="p-specs"></ul>
+      </div>
+
+      <div class="info-blocks">
+        <details open>
+          <summary>
+            <span class="title">Almacenamiento y manejo</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="body">
+            <p>Almacenar a <strong>-20&nbsp;&deg;C</strong> protegido de luz y humedad. Vial liofilizado estable bajo estas condiciones hasta su fecha de caducidad.</p>
+            <p>Una vez reconstituido, utilizar seg&uacute;n el protocolo de investigaci&oacute;n establecido. Evitar ciclos repetidos de congelaci&oacute;n y descongelaci&oacute;n.</p>
+          </div>
+        </details>
+        <details open>
+          <summary>
+            <span class="title">Env&iacute;o y embalaje</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="body">
+            <p>Enviamos v&iacute;a <strong>DHL Express</strong> con entrega estimada en <strong>48&ndash;72 horas h&aacute;biles</strong> a toda la Rep&uacute;blica Mexicana.</p>
+            <p>Todos los pedidos se despachan con cuidado especial para preservar la integridad del compuesto durante el transporte.</p>
+            <p>Consulte nuestra <a href="#">Pol&iacute;tica de Env&iacute;os</a> para tiempos y cobertura completos.</p>
+          </div>
+        </details>
+        <details open>
+          <summary>
+            <span class="title">Aviso de uso</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="body">
+            <p>Este compuesto est&aacute; destinado exclusivamente a investigaci&oacute;n cient&iacute;fica en entornos de laboratorio controlado.</p>
+            <p>No est&aacute; aprobado para uso humano ni veterinario, y no debe utilizarse como medicamento, suplemento alimenticio o producto de diagn&oacute;stico.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">ciencia sana<span class="r">&reg;</span></a>
+        <p>P&eacute;ptidos de grado investigaci&oacute;n y f&oacute;rmulas de bienestar, en vial y c&aacute;psulas, con pureza verificada por terceros.</p>
+        <p class="addr">Ciudad de M&eacute;xico, M&eacute;xico<br />hola@cienciasana.com</p>
+      </div>
+      <div class="foot-col"><h4>Navegaci&oacute;n</h4><a href="index.html">Inicio</a><a href="catalogo.html">Cat&aacute;logo</a><a href="index.html#preguntas">Preguntas</a><a href="index.html#contacto">Contacto</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="#">Privacidad</a><a href="#">T&eacute;rminos</a><a href="#">Cookies</a></div>
+      <div class="foot-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Env&iacute;os</a><a href="#">Garant&iacute;a</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; 2026 ciencia sana. Todos los derechos reservados.</span>
+      <span>Hecho en M&eacute;xico</span>
+    </div>
+    <p class="disclaimer">L&iacute;nea de viales: compuestos de referencia para uso exclusivo en investigaci&oacute;n cient&iacute;fica. No para diagn&oacute;stico, tratamiento ni consumo humano. Los suplementos dietarios no son medicamentos y su consumo no cura ni previene enfermedades.</p>
+  </div>
+</footer>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+  <div class="cart-head">
+    <h3>Tu carrito <span class="cart-count" id="cart-count">(0)</span></h3>
+    <button class="cart-close" id="cart-close" type="button" aria-label="Cerrar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-foot" id="cart-foot">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <strong id="cart-subtotal">$0.00</strong>
+    </div>
+    <p class="cart-note">Env&iacute;o calculado al finalizar la compra</p>
+    <a class="cart-cta" href="carrito.html">Ir al carrito</a>
+    <a class="cart-cta-2" href="carrito.html">Finalizar compra</a>
+  </div>
+</aside>
+
+<script src="products.js"></script>
+<script>
+  var products = window.CIENCIA_PRODUCTS;
+
+  function getSlug() {
+    var p = new URLSearchParams(window.location.search).get('p');
+    return p && products[p] ? p : 'ghk-cu';
+  }
+
+  function render(slug) {
+    var d = products[slug];
+    if (!d) return;
+    document.title = d.name + ' — ciencia sana®';
+    var img = document.getElementById('p-image');
+    img.src = d.image; img.alt = d.alt || d.name;
+    img.style.transform = d.zoom && d.zoom !== 1 ? 'scale(' + d.zoom + ')' : '';
+    document.getElementById('p-name').textContent = d.name;
+    document.getElementById('p-dose').textContent = d.dose;
+    document.getElementById('p-desc').textContent = d.description;
+    document.getElementById('p-batch').textContent = d.batch;
+    document.getElementById('p-old').textContent = d.priceOld;
+    document.getElementById('p-new').textContent = d.priceNew;
+
+    var tagsEl = document.getElementById('p-tags');
+    tagsEl.innerHTML = '';
+    d.tags.forEach(function(t) {
+      var span = document.createElement('span');
+      span.className = 'tag ' + (t.primary ? 'primary' : 'secondary');
+      if (t.primary && t.color) span.style.background = t.color;
+      span.textContent = t.label;
+      tagsEl.appendChild(span);
+    });
+
+    var verifiedEl = document.getElementById('p-verified');
+    verifiedEl.style.display = d.verified ? '' : 'none';
+
+    var specsEl = document.getElementById('p-specs');
+    var specsSection = document.getElementById('specs-section');
+    specsEl.innerHTML = '';
+    if (d.specs && d.specs.length) {
+      specsSection.style.display = '';
+      d.specs.forEach(function(s) {
+        var li = document.createElement('li');
+        li.textContent = s;
+        specsEl.appendChild(li);
+      });
+    } else {
+      specsSection.style.display = 'none';
+    }
+
+    var coasEl = document.getElementById('p-coas');
+    coasEl.innerHTML = '';
+    if (!d.coas || d.coas.length === 0) {
+      var empty = document.createElement('p');
+      empty.className = 'coa-empty';
+      empty.textContent = 'Certificados disponibles próximamente.';
+      coasEl.appendChild(empty);
+    } else {
+      d.coas.forEach(function(c) {
+        var a = document.createElement('a');
+        a.href = c.url || '#';
+        a.className = 'coa-item';
+        a.innerHTML = '<span class="icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>' +
+          '<div class="body"><strong>Lote ' + c.id + '</strong><span>' + c.meta + '</span></div>' +
+          '<span class="link">Ver certificado &rarr;</span>';
+        coasEl.appendChild(a);
+      });
+    }
+  }
+
+  // Cart logic
+  function loadCart() {
+    try { return JSON.parse(localStorage.getItem('cs_cart') || '[]'); } catch (e) { return []; }
+  }
+  function saveCart(items) { localStorage.setItem('cs_cart', JSON.stringify(items)); }
+  function priceNum(s) { return parseFloat(String(s).replace(/[^0-9.]/g, '')) || 0; }
+  function fmt(n) { return '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  function addToCart(slug) {
+    var d = products[slug]; if (!d) return;
+    var cart = loadCart();
+    var found = null;
+    for (var i = 0; i < cart.length; i++) { if (cart[i].slug === slug) { found = cart[i]; break; } }
+    if (found) { found.qty++; }
+    else { cart.push({ slug: slug, name: d.name, dose: d.dose, image: d.image, price: priceNum(d.priceNew), qty: 1 }); }
+    saveCart(cart);
+    renderCart();
+    openCart();
+  }
+
+  function renderCart() {
+    var cart = loadCart();
+    var body = document.getElementById('cart-body');
+    var countEl = document.getElementById('cart-count');
+    var subtotalEl = document.getElementById('cart-subtotal');
+    var badge = document.getElementById('cart-badge');
+    var foot = document.getElementById('cart-foot');
+
+    var totalQty = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+    countEl.textContent = '(' + totalQty + ')';
+    badge.textContent = totalQty;
+    badge.classList.toggle('hidden', totalQty === 0);
+
+    body.innerHTML = '';
+    if (cart.length === 0) {
+      body.innerHTML = '<p class="cart-empty">Tu carrito está vacío.</p>';
+      subtotalEl.textContent = '$0.00';
+      foot.style.display = 'none';
+      return;
+    }
+    foot.style.display = '';
+
+    var subtotal = 0;
+    cart.forEach(function(item) {
+      var lineTotal = item.price * item.qty;
+      subtotal += lineTotal;
+      var el = document.createElement('div');
+      el.className = 'cart-item';
+      el.innerHTML =
+        '<div class="cart-thumb"><img src="' + item.image + '" alt="' + item.name + '"/></div>' +
+        '<div class="cart-info">' +
+          '<h4>' + item.name + '</h4>' +
+          '<span class="var">' + item.name + ' · ' + item.dose + '</span>' +
+          '<div class="cart-qty">' +
+            '<button type="button" data-act="dec" data-slug="' + item.slug + '" aria-label="Disminuir">−</button>' +
+            '<span class="val">' + item.qty + '</span>' +
+            '<button type="button" data-act="inc" data-slug="' + item.slug + '" aria-label="Aumentar">+</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cart-right">' +
+          '<button class="cart-remove" type="button" data-act="rm" data-slug="' + item.slug + '" aria-label="Eliminar">' +
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>' +
+          '</button>' +
+          '<span class="cart-price">' + fmt(lineTotal) + '</span>' +
+        '</div>';
+      body.appendChild(el);
+    });
+
+    subtotalEl.textContent = fmt(subtotal);
+  }
+
+  function updateQty(slug, delta) {
+    var cart = loadCart();
+    var idx = -1;
+    for (var i = 0; i < cart.length; i++) { if (cart[i].slug === slug) { idx = i; break; } }
+    if (idx === -1) return;
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+    saveCart(cart);
+    renderCart();
+  }
+
+  function removeItem(slug) {
+    saveCart(loadCart().filter(function(x) { return x.slug !== slug; }));
+    renderCart();
+  }
+
+  function openCart() {
+    document.getElementById('cart-drawer').classList.add('open');
+    document.getElementById('cart-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCart() {
+    document.getElementById('cart-drawer').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  render(getSlug());
+  renderCart();
+
+  document.getElementById('btn-buy').addEventListener('click', function() { addToCart(getSlug()); });
+  document.getElementById('btn-coa').addEventListener('click', function() {
+    document.querySelector('.coa-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  document.getElementById('cart-trigger').addEventListener('click', openCart);
+  document.getElementById('cart-close').addEventListener('click', closeCart);
+  document.getElementById('cart-overlay').addEventListener('click', closeCart);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeCart(); });
+
+  document.getElementById('cart-body').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    var act = btn.dataset.act;
+    var slug = btn.dataset.slug;
+    if (act === 'inc') updateQty(slug, 1);
+    else if (act === 'dec') updateQty(slug, -1);
+    else if (act === 'rm') removeItem(slug);
+  });
+</script>
+
+</body>
+</html>

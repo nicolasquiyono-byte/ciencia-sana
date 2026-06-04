@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ciencia sana&reg; &mdash; Salud respaldada por ciencia</title>
+<meta name="description" content="ciencia sana: peptidos de grado investigacion y formulas de bienestar, en vial y capsulas, con pureza verificada por terceros. Envio en Mexico." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #1c2b9e; --blue-deep: #141f78; --blue-soft: #f1f2fb;
+    --ink: #11163a; --paper: #ffffff; --muted: #5b6079;
+    --line: rgba(17,22,58,.12); --line-on-blue: rgba(255,255,255,.22); --r: 18px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background .3s ease, border-color .3s ease; border-bottom: 1px solid transparent; }
+  header.scrolled { background: rgba(28,43,158,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-on-blue); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .logo { font-size: 1.35rem; font-weight: 500; letter-spacing: -.02em; color: #fff; }
+  .logo .r { font-size: .42em; vertical-align: super; font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { color: rgba(255,255,255,.85); font-size: .98rem; font-weight: 300; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  .pill { border: 1px solid var(--line-on-blue); padding: .4rem .9rem; border-radius: 100px; font-size: .85rem; color: #fff; }
+  .menu-btn { display: none; background: none; border: 0; color: #fff; font-size: 1.6rem; cursor: pointer; }
+  .cart-trigger { position: relative; background: transparent; border: 0; color: rgba(255,255,255,.85); cursor: pointer; padding: .35rem; display: flex; transition: color .15s; margin-left: .5rem; text-decoration: none; }
+  .cart-trigger:hover { color: #fff; }
+  .cart-badge { position: absolute; top: -2px; right: -2px; background: #fff; color: var(--blue); font-size: .68rem; font-weight: 600; padding: 0 5px; border-radius: 100px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .cart-badge.hidden { display: none; }
+
+  .hero { background: var(--blue); color: #fff; min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -8%; bottom: -12%; width: 60vw; height: 60vw; max-width: 720px; max-height: 720px; background: radial-gradient(circle, rgba(255,255,255,.06), transparent 65%); pointer-events: none; }
+  .hero .wrap { position: relative; z-index: 2; }
+  .eyebrow { font-size: .82rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 1.4rem; font-weight: 400; }
+  .hero h1 { font-size: clamp(2.8rem, 8vw, 6.4rem); font-weight: 400; line-height: .98; letter-spacing: -.03em; max-width: 14ch; }
+  .hero p.sub { font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 300; color: rgba(255,255,255,.85); margin-top: 1.8rem; max-width: 44ch; }
+  .hero p.fine { font-size: .98rem; font-weight: 300; color: rgba(255,255,255,.6); margin-top: .8rem; max-width: 46ch; }
+  .cta-row { display: flex; gap: 1rem; align-items: center; margin-top: 2.6rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; background: #fff; color: var(--blue); padding: .95rem 1.7rem; border-radius: 100px; font-size: 1rem; font-weight: 500; letter-spacing: -.01em; transition: transform .2s ease, box-shadow .2s ease; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,.18); }
+  .btn-ghost { background: transparent; color: #fff; border: 1px solid var(--line-on-blue); }
+  .btn-ghost:hover { background: rgba(255,255,255,.08); box-shadow: none; }
+
+  .reveal { opacity: 0; transform: translateY(20px); animation: rise .9s cubic-bezier(.16,1,.3,1) forwards; }
+  .d1 { animation-delay: .05s } .d2 { animation-delay: .15s } .d3 { animation-delay: .25s } .d4 { animation-delay: .35s }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  section { padding: clamp(70px, 10vw, 130px) 0; }
+  .label { font-size: .82rem; letter-spacing: .22em; text-transform: uppercase; color: var(--blue); font-weight: 500; margin-bottom: 1.1rem; }
+  h2 { font-size: clamp(2rem, 4.4vw, 3.3rem); font-weight: 400; line-height: 1.05; letter-spacing: -.025em; max-width: 18ch; }
+
+  .standards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-top: 3rem; }
+  .standard { background: var(--paper); padding: 2.4rem 2rem; }
+  .standard .num { font-size: 1rem; color: var(--blue); font-weight: 500; letter-spacing: .1em; }
+  .standard h3 { font-size: 1.45rem; font-weight: 400; margin: 1.4rem 0 .5rem; letter-spacing: -.02em; }
+  .standard p { color: var(--muted); font-weight: 300; }
+
+  .cat-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }
+  .link-arrow { color: var(--blue); font-weight: 500; font-size: 1rem; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 3rem; }
+  .card { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--paper); transition: border-color .25s, transform .25s, box-shadow .25s; display: flex; flex-direction: column; }
+  .card:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(28,43,158,.10); }
+  .media { position: relative; aspect-ratio: 1 / 1; overflow: hidden; }
+  .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+  .media img[hidden] { display: none; }
+  .card:hover .media img { transform: scale(1.03); }
+  .tag { position: absolute; top: 14px; left: 14px; z-index: 3; color: #fff; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; padding: .3rem .7rem; border-radius: 100px; }
+  .info { padding: 1.5rem 1.6rem 1.7rem; display: flex; flex-direction: column; flex-grow: 1; }
+  .info h3 { font-size: 1.5rem; font-weight: 400; letter-spacing: -.02em; }
+  .info h3 .dose { color: var(--muted); font-size: 1rem; }
+  .formats { display: inline-flex; gap: .3rem; margin-top: .8rem; background: var(--blue-soft); border-radius: 100px; padding: .25rem; align-self: flex-start; }
+  .fmt { border: 0; background: transparent; font-family: inherit; font-size: .82rem; padding: .35rem .9rem; border-radius: 100px; cursor: pointer; color: var(--muted); transition: all .2s; }
+  .fmt.active { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.1); font-weight: 500; }
+  .info .meta { color: var(--muted); font-weight: 300; font-size: .92rem; margin-top: .7rem; display: flex; align-items: center; gap: .5rem; flex-grow: 1; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .info .more { color: var(--blue); font-weight: 500; margin-top: 1.3rem; font-size: .95rem; }
+
+  .faq-section { background: var(--blue-soft); }
+  .faq { margin-top: 2.6rem; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; padding: 1.5rem 0; font-size: 1.25rem; font-weight: 400; letter-spacing: -.01em; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary .plus { color: var(--blue); font-size: 1.5rem; transition: transform .25s; line-height: 1; }
+  details[open] summary .plus { transform: rotate(45deg); }
+  details p { padding: 0 0 1.6rem; color: var(--muted); font-weight: 300; max-width: 70ch; }
+
+  .strip { background: var(--blue); color: #fff; text-align: center; }
+  .strip h2 { margin: 0 auto; }
+  .strip p { color: rgba(255,255,255,.8); font-weight: 300; margin: 1.2rem auto 0; max-width: 50ch; }
+  .strip .cta-row { justify-content: center; }
+
+  footer { background: var(--blue-deep); color: rgba(255,255,255,.7); padding: 70px 0 40px; font-weight: 300; }
+  .foot-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; }
+  .foot-brand .logo { display: inline-block; margin-bottom: 1rem; }
+  .foot-brand p { font-size: .95rem; max-width: 38ch; line-height: 1.7; }
+  .foot-brand .addr { margin-top: 1.2rem; font-size: .9rem; color: rgba(255,255,255,.55); }
+  .foot-col h4 { color: #fff; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; margin-bottom: 1.1rem; }
+  .foot-col a { display: block; padding: .35rem 0; font-size: .95rem; color: rgba(255,255,255,.7); transition: color .2s; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bot { border-top: 1px solid var(--line-on-blue); margin-top: 3rem; padding-top: 1.8rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: .85rem; color: rgba(255,255,255,.5); }
+  .disclaimer { font-size: .82rem; color: rgba(255,255,255,.4); margin-top: 1rem; max-width: 72ch; line-height: 1.6; }
+
+  @media (max-width: 880px) {
+    .standards, .grid { grid-template-columns: repeat(2, 1fr); }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .menu-btn { display: block; }
+  }
+  @media (max-width: 540px) {
+    .standards, .grid { grid-template-columns: 1fr; }
+    .foot-top { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="#" class="logo">ciencia sana<span class="r">&reg;</span></a>
+    <nav class="nav-links">
+      <a href="catalogo.html">Cat&aacute;logo</a>
+      <a href="#preguntas">Preguntas</a>
+      <a href="#contacto">Contacto</a>
+      <span class="pill">&#127474;&#127485; MXN</span>
+      <a class="cart-trigger" href="carrito.html" aria-label="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-badge hidden" id="cart-badge">0</span>
+      </a>
+    </nav>
+    <button class="menu-btn" aria-label="Men&uacute;">&#9776;</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow reveal d1">Salud respaldada por ciencia</p>
+    <h1 class="reveal d2">Pureza que puedes comprobar.</h1>
+    <p class="sub reveal d3">P&eacute;ptidos de grado investigaci&oacute;n y f&oacute;rmulas de bienestar, en vial y c&aacute;psulas.</p>
+    <p class="fine reveal d3">Cada lote se analiza por laboratorios terceros: 99%+ de pureza, trazabilidad completa.</p>
+    <div class="cta-row reveal d4">
+      <a href="catalogo.html" class="btn">Ver cat&aacute;logo</a>
+      <a href="#preguntas" class="btn btn-ghost">Conocer m&aacute;s</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="label">La Garant&iacute;a ciencia sana</p>
+    <h2>Nuestros est&aacute;ndares son la diferencia.</h2>
+    <div class="standards">
+      <div class="standard"><span class="num">01</span><h3>Pureza 99%+ confirmada</h3><p>Verificada por laboratorios terceros independientes.</p></div>
+      <div class="standard"><span class="num">02</span><h3>Certificado con cada lote</h3><p>Trazabilidad completa: sabes exactamente qu&eacute; recibes.</p></div>
+      <div class="standard"><span class="num">03</span><h3>Env&iacute;o en 24&ndash;72 h</h3><p>Log&iacute;stica nacional con seguimiento, sin costo adicional.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="catalogo" style="padding-top:0;">
+  <div class="wrap">
+    <div class="cat-head">
+      <div>
+        <p class="label">Cat&aacute;logo</p>
+        <h2>Productos destacados</h2>
+      </div>
+      <a href="catalogo.html" class="link-arrow">Ver cat&aacute;logo completo &rarr;</a>
+    </div>
+    <div class="grid">
+      <a href="producto.html?p=bpc-157" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg vial" src="images/bpc-157-vial.png" alt="ciencia sana BPC-157 vial" loading="lazy" /><img class="pimg oral" src="images/bpc-157-capsulas.png" alt="ciencia sana BPC-157 cápsulas" loading="lazy" hidden />
+          <span class="tag" style="background:#a4c87a">Recuperación</span>
+        </div>
+        <div class="info">
+          <h3>BPC-157 <span class="dose">5 mg</span></h3>
+          <div class="formats"><button class="fmt active" data-fmt="vial">Vial</button><button class="fmt" data-fmt="oral">Cápsulas</button></div>
+          <p class="meta"><span class="dot" style="background:#a4c87a"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=tb-500" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg vial" src="images/tb-500-vial.png" alt="ciencia sana TB-500 vial" loading="lazy" /><img class="pimg oral" src="images/tb-500-capsulas.png" alt="ciencia sana TB-500 cápsulas" loading="lazy" hidden />
+          <span class="tag" style="background:#234c39">Regeneración</span>
+        </div>
+        <div class="info">
+          <h3>TB-500 <span class="dose">5 mg</span></h3>
+          <div class="formats"><button class="fmt active" data-fmt="vial">Vial</button><button class="fmt" data-fmt="oral">Cápsulas</button></div>
+          <p class="meta"><span class="dot" style="background:#234c39"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=retatrutide" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg" src="images/retatrutide-vial.png" alt="ciencia sana Retatrutide vial" loading="lazy" />
+          <span class="tag" style="background:#1f2f9c">Control de peso</span>
+        </div>
+        <div class="info">
+          <h3>Retatrutide <span class="dose">5 mg</span></h3>
+          
+          <p class="meta"><span class="dot" style="background:#1f2f9c"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=cjc-ipamorelin" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg" src="images/cjc-ipamorelin-vial.png" alt="ciencia sana CJC &amp; Ipamorelin vial" loading="lazy" />
+          <span class="tag" style="background:#e0b327">Estímulo de GH</span>
+        </div>
+        <div class="info">
+          <h3>CJC &amp; Ipamorelin <span class="dose">5 mg</span></h3>
+          
+          <p class="meta"><span class="dot" style="background:#e0b327"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=ghk-cu" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg vial" src="images/ghk-cu-vial.png" alt="ciencia sana GHK-Cu vial" loading="lazy" /><img class="pimg oral" src="images/ghk-cu-capsulas.png" alt="ciencia sana GHK-Cu cápsulas" loading="lazy" hidden />
+          <span class="tag" style="background:#5b2c87">Piel y colágeno</span>
+        </div>
+        <div class="info">
+          <h3>GHK-Cu <span class="dose">5 mg</span></h3>
+          <div class="formats"><button class="fmt active" data-fmt="vial">Vial</button><button class="fmt" data-fmt="oral">Cápsulas</button></div>
+          <p class="meta"><span class="dot" style="background:#5b2c87"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=mots-c" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg vial" src="images/mots-c-vial.png" alt="ciencia sana MOTS-c vial" loading="lazy" /><img class="pimg oral" src="images/mots-c-capsulas.png" alt="ciencia sana MOTS-c cápsulas" loading="lazy" hidden />
+          <span class="tag" style="background:#7a1f3d">Energía mitocondrial</span>
+        </div>
+        <div class="info">
+          <h3>MOTS-c <span class="dose">5 mg</span></h3>
+          <div class="formats"><button class="fmt active" data-fmt="vial">Vial</button><button class="fmt" data-fmt="oral">Cápsulas</button></div>
+          <p class="meta"><span class="dot" style="background:#7a1f3d"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=nad" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg vial" src="images/nad-vial.png" alt="ciencia sana NAD+ vial" loading="lazy" /><img class="pimg oral" src="images/nad-capsulas.png" alt="ciencia sana NAD+ cápsulas" loading="lazy" hidden />
+          <span class="tag" style="background:#ef981c">Longevidad celular</span>
+        </div>
+        <div class="info">
+          <h3>NAD+ <span class="dose">5 mg</span></h3>
+          <div class="formats"><button class="fmt active" data-fmt="vial">Vial</button><button class="fmt" data-fmt="oral">Cápsulas</button></div>
+          <p class="meta"><span class="dot" style="background:#ef981c"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=semax" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg vial" src="images/semax-vial.png" alt="ciencia sana Semax vial" loading="lazy" /><img class="pimg oral" src="images/semax-capsulas.png" alt="ciencia sana Semax cápsulas" loading="lazy" hidden />
+          <span class="tag" style="background:#15a29f">Cognición y enfoque</span>
+        </div>
+        <div class="info">
+          <h3>Semax <span class="dose">5 mg</span></h3>
+          <div class="formats"><button class="fmt active" data-fmt="vial">Vial</button><button class="fmt" data-fmt="oral">Cápsulas</button></div>
+          <p class="meta"><span class="dot" style="background:#15a29f"></span><span class="meta-text">Vial · 99%+ pureza</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+      <a href="producto.html?p=lucid" class="card">
+        <div class="media" style="background:#edeef1">
+          <img class="pimg" src="images/lucid.png" alt="ciencia sana Lucid" loading="lazy" />
+          <span class="tag" style="background:#2a2860">Sueño profundo</span>
+        </div>
+        <div class="info">
+          <h3>Lucid <span class="dose">60 cápsulas</span></h3>
+          
+          <p class="meta"><span class="dot" style="background:#2a2860"></span><span class="meta-text">60 cápsulas · suplemento</span></p>
+          <span class="more">Ver detalles &rarr;</span>
+        </div>
+      </a>
+        </div>
+  </div>
+</section>
+
+<section id="preguntas" class="faq-section">
+  <div class="wrap">
+    <p class="label">Preguntas</p>
+    <h2>Lo que m&aacute;s nos preguntan.</h2>
+    <div class="faq">
+      <details open><summary>&iquest;Qu&eacute; diferencia hay entre el vial y las c&aacute;psulas? <span class="plus">+</span></summary><p>El vial es la presentaci&oacute;n liofilizada de grado investigaci&oacute;n. Las c&aacute;psulas orales son la versi&oacute;n en suplemento, listas para tomar. Ambas comparten el mismo compuesto con 99%+ de pureza.</p></details>
+      <details><summary>&iquest;C&oacute;mo comprueban la pureza? <span class="plus">+</span></summary><p>Mediante an&aacute;lisis de terceros que confirman identidad, pureza (99%+) y concentraci&oacute;n de cada lote. El certificado (COA) est&aacute; disponible para todos los productos.</p></details>
+      <details><summary>&iquest;Los p&eacute;ptidos son para consumo humano? <span class="plus">+</span></summary><p>Los viales 5 mg son de uso exclusivo para investigaci&oacute;n cient&iacute;fica. Las c&aacute;psulas est&aacute;n etiquetadas como suplemento dietario. Sigue siempre la indicaci&oacute;n de la etiqueta de cada presentaci&oacute;n.</p></details>
+      <details><summary>&iquest;Hacen env&iacute;os a todo M&eacute;xico? <span class="plus">+</span></summary><p>S&iacute;. Enviamos a todo el pa&iacute;s con seguimiento y entrega t&iacute;pica de 24 a 72 horas h&aacute;biles.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="strip">
+  <div class="wrap">
+    <h2 style="max-width:none;">&iquest;Listo para empezar?</h2>
+    <p>Escr&iacute;benos y te ayudamos a elegir el formato correcto. Respondemos en menos de 24 h h&aacute;biles.</p>
+    <div class="cta-row"><a href="mailto:hola@cienciasana.com" class="btn">Contactar al equipo</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="logo">ciencia sana<span class="r">&reg;</span></a>
+        <p>P&eacute;ptidos de grado investigaci&oacute;n y f&oacute;rmulas de bienestar, en vial y c&aacute;psulas, con pureza verificada por terceros.</p>
+        <p class="addr">Ciudad de M&eacute;xico, M&eacute;xico<br />hola@cienciasana.com</p>
+      </div>
+      <div class="foot-col"><h4>Navegaci&oacute;n</h4><a href="#">Inicio</a><a href="catalogo.html">Cat&aacute;logo</a><a href="#preguntas">Preguntas</a><a href="#contacto">Contacto</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="#">Privacidad</a><a href="#">T&eacute;rminos</a><a href="#">Cookies</a></div>
+      <div class="foot-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Env&iacute;os</a><a href="#">Garant&iacute;a</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; 2026 ciencia sana. Todos los derechos reservados.</span>
+      <span>Hecho en M&eacute;xico</span>
+    </div>
+    <p class="disclaimer">L&iacute;nea de viales: compuestos de referencia para uso exclusivo en investigaci&oacute;n cient&iacute;fica. No para diagn&oacute;stico, tratamiento ni consumo humano. Los suplementos dietarios no son medicamentos y su consumo no cura ni previene enfermedades.</p>
+  </div>
+</footer>
+
+<script>
+  var header = document.getElementById('header');
+  function onScroll() { header.classList.toggle('scrolled', window.scrollY > 40); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  (function() {
+    var badge = document.getElementById('cart-badge'); if (!badge) return;
+    try {
+      var cart = JSON.parse(localStorage.getItem('cs_cart') || '[]');
+      var total = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+      badge.textContent = total;
+      badge.classList.toggle('hidden', total === 0);
+    } catch (e) {}
+  })();
+
+  document.querySelectorAll('.formats').forEach(function(group) {
+    group.addEventListener('click', function(e) {
+      var btn = e.target.closest('.fmt'); if (!btn) return;
+      e.preventDefault();
+      var card = btn.closest('.card');
+      var fmt = btn.dataset.fmt;
+      card.querySelectorAll('.pimg').forEach(function(img) {
+        img.hidden = !img.classList.contains(fmt);
+      });
+      group.querySelectorAll('.fmt').forEach(function(b) { b.classList.toggle('active', b === btn); });
+      var meta = card.querySelector('.meta-text');
+      if (fmt === 'oral') { meta.textContent = '60 cápsulas · 99%+ pureza'; }
+      else { meta.textContent = 'Vial · 99%+ pureza'; }
+    });
+  });
+</script>
+
+</body>
+</html>

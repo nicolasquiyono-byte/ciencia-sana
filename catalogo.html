@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cat&aacute;logo &mdash; ciencia sana&reg;</title>
+<meta name="description" content="Compuestos disponibles ciencia sana: peptidos en vial y suplementos en capsulas, con pureza 99%+ verificada por terceros. Envio en Mexico." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #1c2b9e; --blue-deep: #141f78; --blue-soft: #f1f2fb;
+    --ink: #11163a; --paper: #ffffff; --muted: #5b6079;
+    --line: rgba(17,22,58,.12); --line-on-blue: rgba(255,255,255,.22); --r: 18px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(28,43,158,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-on-blue); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .logo { font-size: 1.35rem; font-weight: 500; letter-spacing: -.02em; color: #fff; }
+  .logo .r { font-size: .42em; vertical-align: super; font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { color: rgba(255,255,255,.85); font-size: .98rem; font-weight: 300; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.current { color: #fff; }
+  .pill { border: 1px solid var(--line-on-blue); padding: .4rem .9rem; border-radius: 100px; font-size: .85rem; color: #fff; }
+  .menu-btn { display: none; background: none; border: 0; color: #fff; font-size: 1.6rem; cursor: pointer; }
+
+  .cart-trigger { position: relative; background: transparent; border: 0; color: rgba(255,255,255,.85); cursor: pointer; padding: .35rem; display: flex; transition: color .15s; margin-left: .5rem; text-decoration: none; }
+  .cart-trigger:hover { color: #fff; }
+  .cart-badge { position: absolute; top: -2px; right: -2px; background: #fff; color: var(--blue); font-size: .68rem; font-weight: 600; padding: 0 5px; border-radius: 100px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .cart-badge.hidden { display: none; }
+
+  .cat-intro { padding: 140px 0 2.4rem; }
+  .label { font-size: .82rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 1.4rem; }
+  .cat-intro h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 400; line-height: 1.05; letter-spacing: -.025em; max-width: 14ch; }
+  .cat-disclaimer { color: var(--muted); font-weight: 300; margin-top: 1.6rem; max-width: 58ch; font-size: .92rem; line-height: 1.65; }
+  .cat-disclaimer a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-weight: 400; }
+  .cat-disclaimer a:hover { color: var(--blue); }
+
+  .filters-bar { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1rem 0; }
+  .filters-bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .filters { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
+  .search { position: relative; }
+  .search input { font-family: inherit; border: 1px solid var(--line); background: var(--paper); border-radius: 10px; padding: .58rem .9rem .58rem 2.2rem; font-size: .9rem; color: var(--ink); width: 230px; outline: none; transition: border-color .15s; }
+  .search input:focus { border-color: var(--blue); }
+  .search input::placeholder { color: var(--muted); }
+  .search svg { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .select-wrap { position: relative; }
+  .select { font-family: inherit; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: .58rem 2rem .58rem .9rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink); cursor: pointer; position: relative; font-weight: 500; transition: border-color .15s, color .15s; }
+  .select::after { content: "\25BE"; position: absolute; right: .85rem; top: 50%; transform: translateY(-50%); font-size: .75rem; color: var(--muted); transition: transform .2s; }
+  .select:hover, .select.open { border-color: var(--blue); }
+  .select.open::after { transform: translateY(-50%) rotate(180deg); }
+  .select.dirty { color: var(--blue); border-color: var(--blue); }
+  .select-menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 220px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 14px 36px rgba(17,22,58,.12); padding: .35rem; z-index: 20; display: flex; flex-direction: column; }
+  .select-menu[hidden] { display: none; }
+  .opt { font-family: inherit; background: transparent; border: 0; text-align: left; padding: .55rem .75rem; border-radius: 7px; font-size: .85rem; color: var(--ink); cursor: pointer; font-weight: 400; transition: background .15s, color .15s; }
+  .opt:hover { background: var(--blue-soft); }
+  .opt.active { background: var(--blue-soft); color: var(--blue); font-weight: 500; }
+  .count { color: var(--muted); font-size: .9rem; font-weight: 300; }
+
+  .catalog-grid { padding: 3.5rem 0 6rem; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  .card { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--paper); transition: border-color .25s, transform .25s, box-shadow .25s; display: flex; flex-direction: column; }
+  .card:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 14px 36px rgba(28,43,158,.10); }
+  .media { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #f3f4f8; }
+  .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+  .card:hover .media img { transform: scale(1.04); }
+  .info { padding: 1.3rem 1.4rem 1.4rem; display: flex; flex-direction: column; flex-grow: 1; }
+  .info h3 { font-size: 1.02rem; font-weight: 500; letter-spacing: -.01em; }
+  .info .dose { color: var(--muted); font-weight: 300; font-size: .88rem; margin-top: .15rem; }
+  .prices { margin-top: .75rem; display: flex; align-items: baseline; gap: .6rem; }
+  .price-old { color: var(--muted); text-decoration: line-through; font-size: .88rem; font-weight: 300; }
+  .price-new { color: var(--ink); font-weight: 500; font-size: 1.02rem; }
+  .ver-mas { margin-top: 1rem; display: block; text-align: center; background: var(--ink); color: #fff; padding: .72rem 1rem; border-radius: 100px; font-size: .92rem; font-weight: 400; transition: background .2s; }
+  .card:hover .ver-mas { background: var(--blue); }
+
+  .empty { grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--muted); font-weight: 300; }
+
+  footer { background: var(--blue-deep); color: rgba(255,255,255,.7); padding: 70px 0 40px; font-weight: 300; }
+  .foot-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; }
+  .foot-brand .logo { display: inline-block; margin-bottom: 1rem; }
+  .foot-brand p { font-size: .95rem; max-width: 38ch; line-height: 1.7; }
+  .foot-brand .addr { margin-top: 1.2rem; font-size: .9rem; color: rgba(255,255,255,.55); }
+  .foot-col h4 { color: #fff; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; margin-bottom: 1.1rem; }
+  .foot-col a { display: block; padding: .35rem 0; font-size: .95rem; color: rgba(255,255,255,.7); transition: color .2s; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bot { border-top: 1px solid var(--line-on-blue); margin-top: 3rem; padding-top: 1.8rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: .85rem; color: rgba(255,255,255,.5); }
+  .disclaimer { font-size: .82rem; color: rgba(255,255,255,.4); margin-top: 1rem; max-width: 72ch; line-height: 1.6; }
+
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .menu-btn { display: block; }
+    .filters-bar .wrap { justify-content: flex-start; }
+    .search { flex-grow: 1; min-width: 0; }
+    .search input { width: 100%; }
+  }
+  @media (max-width: 540px) {
+    .grid { grid-template-columns: 1fr; }
+    .foot-top { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="index.html" class="logo">ciencia sana<span class="r">&reg;</span></a>
+    <nav class="nav-links">
+      <a href="catalogo.html" class="current">Cat&aacute;logo</a>
+      <a href="index.html#preguntas">Preguntas</a>
+      <a href="index.html#contacto">Contacto</a>
+      <span class="pill">&#127474;&#127485; MXN</span>
+      <a class="cart-trigger" href="carrito.html" aria-label="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-badge hidden" id="cart-badge">0</span>
+      </a>
+    </nav>
+    <button class="menu-btn" aria-label="Men&uacute;">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="cat-intro">
+    <div class="wrap">
+      <p class="label">Cat&aacute;logo</p>
+      <h1>Compuestos disponibles</h1>
+      <p class="cat-disclaimer">
+        Todos los compuestos est&aacute;n destinados exclusivamente a investigaci&oacute;n cient&iacute;fica en laboratorio. No aptos para uso humano ni veterinario.
+        <a href="#">Leer m&aacute;s sobre uso de investigaci&oacute;n &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <div class="filters-bar">
+    <div class="wrap">
+      <div class="filters">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" placeholder="Buscar compuesto..." id="search" />
+        </div>
+        <div class="select-wrap" data-key="sort">
+          <button class="select" type="button"><span class="select-label">M&aacute;s recientes</span></button>
+          <div class="select-menu" hidden>
+            <button class="opt active" type="button" data-val="recent">M&aacute;s recientes</button>
+            <button class="opt" type="button" data-val="price-asc">Precio: menor a mayor</button>
+            <button class="opt" type="button" data-val="price-desc">Precio: mayor a menor</button>
+            <button class="opt" type="button" data-val="name-asc">Nombre: A&ndash;Z</button>
+          </div>
+        </div>
+        <div class="select-wrap" data-key="fmt">
+          <button class="select" type="button"><span class="select-label">Presentaci&oacute;n</span></button>
+          <div class="select-menu" hidden>
+            <button class="opt active" type="button" data-val="all">Todas</button>
+            <button class="opt" type="button" data-val="vial">Vial</button>
+            <button class="opt" type="button" data-val="oral">C&aacute;psulas</button>
+          </div>
+        </div>
+        <div class="select-wrap" data-key="precio">
+          <button class="select" type="button"><span class="select-label">Precio</span></button>
+          <div class="select-menu" hidden>
+            <button class="opt active" type="button" data-val="all">Todos los precios</button>
+            <button class="opt" type="button" data-val="under-2500">Hasta $2,500</button>
+            <button class="opt" type="button" data-val="2500-5000">$2,500 &ndash; $5,000</button>
+            <button class="opt" type="button" data-val="over-5000">M&aacute;s de $5,000</button>
+          </div>
+        </div>
+      </div>
+      <span class="count"><span id="count">9</span> compuestos</span>
+    </div>
+  </div>
+
+  <section class="catalog-grid">
+    <div class="wrap">
+      <div class="grid" id="grid">
+
+        <a href="producto.html?p=bpc-157" class="card" data-name="bpc-157 recuperacion" data-formats="vial,oral" data-price="2000">
+          <div class="media"><img src="images/bpc-157-vial.png" alt="ciencia sana BPC-157 vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>BPC-157</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$2,400.00</span><span class="price-new">$2,000.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=tb-500" class="card" data-name="tb-500 regeneracion" data-formats="vial,oral" data-price="2500">
+          <div class="media"><img src="images/tb-500-vial.png" alt="ciencia sana TB-500 vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>TB-500</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$3,000.00</span><span class="price-new">$2,500.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=retatrutide" class="card" data-name="retatrutide control de peso" data-formats="vial" data-price="5500">
+          <div class="media"><img src="images/retatrutide-vial.png" alt="ciencia sana Retatrutide vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>Retatrutide</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$6,600.00</span><span class="price-new">$5,500.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=cjc-ipamorelin" class="card" data-name="cjc ipamorelin gh" data-formats="vial" data-price="2500">
+          <div class="media"><img src="images/cjc-ipamorelin-vial.png" alt="ciencia sana CJC &amp; Ipamorelin vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>CJC &amp; Ipamorelin</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$3,000.00</span><span class="price-new">$2,500.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=ghk-cu" class="card" data-name="ghk-cu piel colageno" data-formats="vial,oral" data-price="2000">
+          <div class="media"><img src="images/ghk-cu-vial.png" alt="ciencia sana GHK-Cu vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>GHK-Cu</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$2,400.00</span><span class="price-new">$2,000.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=mots-c" class="card" data-name="mots-c energia mitocondrial" data-formats="vial,oral" data-price="5000">
+          <div class="media"><img src="images/mots-c-vial.png" alt="ciencia sana MOTS-c vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>MOTS-c</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$6,000.00</span><span class="price-new">$5,000.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=nad" class="card" data-name="nad longevidad celular" data-formats="vial,oral" data-price="3000">
+          <div class="media"><img src="images/nad-vial.png" alt="ciencia sana NAD+ vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>NAD+</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$3,600.00</span><span class="price-new">$3,000.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=semax" class="card" data-name="semax cognicion enfoque" data-formats="vial,oral" data-price="2500">
+          <div class="media"><img src="images/semax-vial.png" alt="ciencia sana Semax vial" loading="lazy" /></div>
+          <div class="info">
+            <h3>Semax</h3>
+            <span class="dose">5 mg</span>
+            <div class="prices"><span class="price-old">$3,000.00</span><span class="price-new">$2,500.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+        <a href="producto.html?p=lucid" class="card" data-name="lucid sueno profundo" data-formats="oral" data-price="1500">
+          <div class="media"><img src="images/lucid.png" alt="ciencia sana Lucid c&aacute;psulas" loading="lazy" /></div>
+          <div class="info">
+            <h3>Lucid</h3>
+            <span class="dose">60 c&aacute;psulas</span>
+            <div class="prices"><span class="price-old">$1,800.00</span><span class="price-new">$1,500.00</span></div>
+            <span class="ver-mas">Ver M&aacute;s</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">ciencia sana<span class="r">&reg;</span></a>
+        <p>P&eacute;ptidos de grado investigaci&oacute;n y f&oacute;rmulas de bienestar, en vial y c&aacute;psulas, con pureza verificada por terceros.</p>
+        <p class="addr">Ciudad de M&eacute;xico, M&eacute;xico<br />hola@cienciasana.com</p>
+      </div>
+      <div class="foot-col"><h4>Navegaci&oacute;n</h4><a href="index.html">Inicio</a><a href="catalogo.html">Cat&aacute;logo</a><a href="index.html#preguntas">Preguntas</a><a href="index.html#contacto">Contacto</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="#">Privacidad</a><a href="#">T&eacute;rminos</a><a href="#">Cookies</a></div>
+      <div class="foot-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Env&iacute;os</a><a href="#">Garant&iacute;a</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; 2026 ciencia sana. Todos los derechos reservados.</span>
+      <span>Hecho en M&eacute;xico</span>
+    </div>
+    <p class="disclaimer">L&iacute;nea de viales: compuestos de referencia para uso exclusivo en investigaci&oacute;n cient&iacute;fica. No para diagn&oacute;stico, tratamiento ni consumo humano. Los suplementos dietarios no son medicamentos y su consumo no cura ni previene enfermedades.</p>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    var badge = document.getElementById('cart-badge'); if (!badge) return;
+    try {
+      var cart = JSON.parse(localStorage.getItem('cs_cart') || '[]');
+      var total = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+      badge.textContent = total;
+      badge.classList.toggle('hidden', total === 0);
+    } catch (e) {}
+  })();
+
+  var input = document.getElementById('search');
+  var grid = document.getElementById('grid');
+  var count = document.getElementById('count');
+  var originalOrder = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+  originalOrder.forEach(function(card, i) { card.dataset.order = i; });
+  var emptyEl = null;
+
+  var state = { search: '', sort: 'recent', fmt: 'all', precio: 'all' };
+
+  function inPriceRange(price, range) {
+    if (range === 'all') return true;
+    if (range === 'under-2500') return price < 2500;
+    if (range === '2500-5000') return price >= 2500 && price <= 5000;
+    if (range === 'over-5000') return price > 5000;
+    return true;
+  }
+
+  function apply() {
+    var q = state.search.trim().toLowerCase();
+    var filtered = originalOrder.filter(function(card) {
+      var name = (card.dataset.name || '').toLowerCase();
+      if (q && name.indexOf(q) === -1) return false;
+      var fmts = (card.dataset.formats || '').split(',');
+      if (state.fmt !== 'all' && fmts.indexOf(state.fmt) === -1) return false;
+      var price = parseFloat(card.dataset.price) || 0;
+      if (!inPriceRange(price, state.precio)) return false;
+      return true;
+    });
+
+    filtered.sort(function(a, b) {
+      var pa = parseFloat(a.dataset.price) || 0;
+      var pb = parseFloat(b.dataset.price) || 0;
+      if (state.sort === 'price-asc') return pa - pb;
+      if (state.sort === 'price-desc') return pb - pa;
+      if (state.sort === 'name-asc') {
+        return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
+      }
+      return (parseInt(a.dataset.order) || 0) - (parseInt(b.dataset.order) || 0);
+    });
+
+    originalOrder.forEach(function(card) { card.style.display = 'none'; });
+    filtered.forEach(function(card) {
+      card.style.display = '';
+      grid.appendChild(card);
+    });
+
+    count.textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      if (!emptyEl) {
+        emptyEl = document.createElement('p');
+        emptyEl.className = 'empty';
+        emptyEl.textContent = 'Sin resultados. Prueba con otros filtros.';
+        grid.appendChild(emptyEl);
+      }
+    } else if (emptyEl) {
+      emptyEl.remove();
+      emptyEl = null;
+    }
+  }
+
+  input.addEventListener('input', function() { state.search = input.value; apply(); });
+
+  function closeAllMenus() {
+    document.querySelectorAll('.select-menu').forEach(function(m) { m.hidden = true; });
+    document.querySelectorAll('.select').forEach(function(s) { s.classList.remove('open'); });
+  }
+
+  document.querySelectorAll('.select-wrap').forEach(function(wrap) {
+    var btn = wrap.querySelector('.select');
+    var menu = wrap.querySelector('.select-menu');
+    var label = wrap.querySelector('.select-label');
+    var key = wrap.dataset.key;
+    var defaultLabel = label.textContent;
+
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var wasOpen = !menu.hidden;
+      closeAllMenus();
+      if (!wasOpen) { menu.hidden = false; btn.classList.add('open'); }
+    });
+
+    menu.querySelectorAll('.opt').forEach(function(opt) {
+      opt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var val = opt.dataset.val;
+        menu.querySelectorAll('.opt').forEach(function(o) { o.classList.remove('active'); });
+        opt.classList.add('active');
+        label.textContent = opt.textContent;
+        state[key] = val;
+        var isDefault = (key === 'sort' && val === 'recent') || (key !== 'sort' && val === 'all');
+        btn.classList.toggle('dirty', !isDefault);
+        if (isDefault) label.textContent = defaultLabel;
+        menu.hidden = true;
+        btn.classList.remove('open');
+        apply();
+      });
+    });
+  });
+
+  document.addEventListener('click', closeAllMenus);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllMenus(); });
+</script>
+
+</body>
+</html>

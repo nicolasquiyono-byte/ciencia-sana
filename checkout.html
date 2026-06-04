@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout &mdash; ciencia sana&reg;</title>
+<meta name="description" content="Checkout ciencia sana: completa tu direccion de envio para finalizar la compra." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #1c2b9e; --blue-deep: #141f78; --blue-soft: #f1f2fb;
+    --ink: #11163a; --paper: #ffffff; --muted: #5b6079;
+    --line: rgba(17,22,58,.12); --line-on-blue: rgba(255,255,255,.22); --r: 18px;
+    --warm: #f5efe6; --page-bg: #ffffff; --ok: #2f7a3f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', system-ui, sans-serif; color: var(--ink); background: var(--page-bg); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(28,43,158,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-on-blue); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .logo { font-size: 1.35rem; font-weight: 500; letter-spacing: -.02em; color: #fff; }
+  .logo .r { font-size: .42em; vertical-align: super; font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { color: rgba(255,255,255,.85); font-size: .98rem; font-weight: 300; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  .pill { border: 1px solid var(--line-on-blue); padding: .4rem .9rem; border-radius: 100px; font-size: .85rem; color: #fff; }
+  .menu-btn { display: none; background: none; border: 0; color: #fff; font-size: 1.6rem; cursor: pointer; }
+  .cart-trigger { position: relative; background: transparent; border: 0; color: rgba(255,255,255,.85); cursor: pointer; padding: .35rem; display: flex; transition: color .15s; margin-left: .5rem; text-decoration: none; }
+  .cart-trigger:hover { color: #fff; }
+  .cart-badge { position: absolute; top: -2px; right: -2px; background: #fff; color: var(--blue); font-size: .68rem; font-weight: 600; padding: 0 5px; border-radius: 100px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .cart-badge.hidden { display: none; }
+
+  .checkout-page { padding: 130px 0 5rem; }
+  .checkout-layout { display: grid; grid-template-columns: 1.45fr 1fr; gap: 4rem; align-items: start; }
+
+  .form-col h1 { font-size: clamp(1.9rem, 3.2vw, 2.4rem); font-weight: 400; letter-spacing: -.025em; }
+  .form-col .subtitle { color: var(--muted); font-weight: 300; margin-top: .5rem; margin-bottom: 2.4rem; }
+  .section-title { font-size: 1.1rem; font-weight: 500; color: var(--ink); margin-bottom: 1.4rem; letter-spacing: -.01em; }
+  .form-row { display: grid; gap: 1rem; margin-bottom: 1rem; }
+  .form-row.two { grid-template-columns: 1fr 1fr; }
+  .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-field label { display: block; font-size: .9rem; color: var(--ink); font-weight: 400; margin-bottom: .4rem; }
+  .form-field input, .form-field select { width: 100%; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); font-family: inherit; font-size: .95rem; color: var(--ink); outline: none; transition: border-color .15s; }
+  .form-field input:focus, .form-field select:focus { border-color: var(--blue); }
+  .form-field input::placeholder { color: rgba(91,96,121,.7); }
+  .form-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%235b6079' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.4rem; }
+  .checkbox-row { display: flex; align-items: center; gap: .55rem; margin: 1.5rem 0 1.4rem; font-size: .95rem; color: var(--ink); font-weight: 400; cursor: pointer; }
+  .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; }
+  .helper-text { font-size: .82rem; color: var(--muted); font-weight: 300; margin-top: .4rem; }
+  .continue-btn { width: 100%; background: var(--blue); color: #fff; border: 0; padding: 1.05rem; border-radius: 100px; font-weight: 500; font-size: 1rem; cursor: pointer; margin-top: 1.8rem; transition: background .2s; }
+  .continue-btn:hover { background: var(--blue-deep); }
+  .continue-btn:disabled { background: var(--muted); cursor: not-allowed; }
+
+  .order-col h2 { font-size: 1.45rem; font-weight: 400; letter-spacing: -.015em; margin-bottom: 1.6rem; }
+  .summary-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .summary-item .thumb { width: 56px; height: 56px; border-radius: 8px; background: var(--warm); overflow: hidden; }
+  .summary-item .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .summary-item .info h4 { font-size: 1rem; font-weight: 500; }
+  .summary-item .info span { display: block; color: var(--muted); font-size: .82rem; font-weight: 300; line-height: 1.45; }
+  .summary-item .price { font-weight: 500; color: var(--ink); white-space: nowrap; font-size: 1rem; }
+  .summary-totals { padding-top: 1.5rem; margin-top: .5rem; }
+  .summary-totals .row { display: flex; justify-content: space-between; padding: .4rem 0; font-size: .95rem; color: var(--ink); font-weight: 300; }
+  .summary-totals .row.total { padding-top: .9rem; margin-top: .6rem; border-top: 1px solid var(--line); font-size: 1.15rem; font-weight: 500; }
+  .summary-totals .ok { color: var(--ok); font-weight: 400; }
+  .summary-totals .discount-amt { color: var(--ok); }
+  .add-code-link { display: inline-block; margin-top: 1.1rem; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: .92rem; cursor: pointer; background: transparent; border: 0; padding: 0; font-family: inherit; }
+  .add-code-link:hover { color: var(--blue); }
+
+  .ship-option { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 1rem; padding: 1.2rem 1.4rem; border: 2px solid var(--line); border-radius: 12px; background: var(--paper); cursor: pointer; transition: border-color .15s; }
+  .ship-option.selected { border-color: var(--ink); }
+  .ship-option input[type="radio"] { display: none; }
+  .ship-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--ink); display: flex; align-items: center; justify-content: center; }
+  .ship-radio span { width: 10px; height: 10px; border-radius: 50%; background: var(--ink); display: none; }
+  .ship-option.selected .ship-radio span { display: block; }
+  .ship-name { font-size: 1rem; font-weight: 500; color: var(--ink); }
+  .ship-price-ok { color: var(--ok); font-weight: 500; font-size: 1rem; }
+
+  .discount-card { margin-top: 1.3rem; background: var(--blue-soft); border: 1px solid rgba(28,43,158,.15); border-radius: 12px; padding: 1.1rem 1.3rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .discount-card .tag-icon { color: var(--blue); flex-shrink: 0; margin-top: .15rem; }
+  .discount-card .discount-text { flex-grow: 1; }
+  .discount-card .discount-text > span { display: block; font-size: .95rem; color: var(--ink); font-weight: 400; margin-bottom: .65rem; }
+  .add-code-btn { background: rgba(28,43,158,.1); border: 1px solid rgba(28,43,158,.2); color: var(--blue); padding: .55rem 1rem; border-radius: 8px; font-family: inherit; font-size: .88rem; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .add-code-btn:hover { background: rgba(28,43,158,.2); }
+  .applied-badge { display: inline-flex; align-items: center; gap: .4rem; background: var(--ok); color: #fff; padding: .4rem .85rem; border-radius: 100px; font-size: .82rem; font-weight: 500; }
+
+  .form-actions { display: flex; align-items: center; gap: 1.6rem; margin-top: 2rem; }
+  .back-link { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: .95rem; font-weight: 400; flex-shrink: 0; padding-left: 1rem; }
+  .back-link:hover { color: var(--blue); }
+  .form-actions .continue-btn { flex-grow: 1; margin-top: 0; }
+
+  .pay-option { border: 1px solid var(--line); border-radius: 12px; padding: 1.6rem 1.8rem; background: var(--paper); display: flex; flex-direction: column; gap: 1.1rem; }
+  .pay-head { display: flex; gap: 1.1rem; align-items: flex-start; }
+  .wa-icon-bg { width: 48px; height: 48px; border-radius: 50%; background: #d6f3d2; color: #1faf38; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .pay-head h3 { font-size: 1.1rem; font-weight: 500; color: var(--ink); }
+  .pay-head p { color: var(--muted); font-weight: 300; font-size: .95rem; margin-top: .25rem; line-height: 1.55; max-width: 56ch; }
+  .pay-phone { background: #f3f4f6; border-radius: 10px; padding: .8rem 1.1rem; display: flex; align-items: center; gap: .8rem; color: var(--ink); font-size: .95rem; }
+  .pay-phone svg { color: var(--muted); flex-shrink: 0; }
+  .wa-cta { background: #1faf38; color: #fff; padding: .9rem 1rem; border-radius: 10px; font-weight: 500; font-size: 1rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; border: 0; text-decoration: none; transition: background .15s; font-family: inherit; }
+  .wa-cta:hover { background: #178628; }
+
+  .form-actions.center { justify-content: center; margin-top: 2rem; }
+  .form-actions.center .back-link { padding-left: 0; }
+
+  .empty-checkout { padding: 6rem 1rem; text-align: center; color: var(--muted); }
+  .empty-checkout h2 { color: var(--ink); font-weight: 400; font-size: 1.5rem; margin-bottom: .8rem; }
+  .empty-checkout a { color: var(--blue); text-decoration: underline; }
+
+  footer { background: var(--blue-deep); color: rgba(255,255,255,.7); padding: 70px 0 40px; font-weight: 300; margin-top: 5rem; }
+  .foot-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; }
+  .foot-brand .logo { display: inline-block; margin-bottom: 1rem; }
+  .foot-brand p { font-size: .95rem; max-width: 38ch; line-height: 1.7; }
+  .foot-brand .addr { margin-top: 1.2rem; font-size: .9rem; color: rgba(255,255,255,.55); }
+  .foot-col h4 { color: #fff; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; margin-bottom: 1.1rem; }
+  .foot-col a { display: block; padding: .35rem 0; font-size: .95rem; color: rgba(255,255,255,.7); transition: color .2s; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bot { border-top: 1px solid var(--line-on-blue); margin-top: 3rem; padding-top: 1.8rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: .85rem; color: rgba(255,255,255,.5); }
+  .disclaimer { font-size: .82rem; color: rgba(255,255,255,.4); margin-top: 1rem; max-width: 72ch; line-height: 1.6; }
+
+  @media (max-width: 980px) {
+    .checkout-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row.two, .form-row.three { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 880px) {
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .menu-btn { display: block; }
+  }
+  @media (max-width: 540px) {
+    .foot-top { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="index.html" class="logo">ciencia sana<span class="r">&reg;</span></a>
+    <nav class="nav-links">
+      <a href="catalogo.html">Cat&aacute;logo</a>
+      <a href="index.html#preguntas">Preguntas</a>
+      <a href="index.html#contacto">Contacto</a>
+      <span class="pill">&#127474;&#127485; MXN</span>
+      <a class="cart-trigger" href="carrito.html" aria-label="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-badge hidden" id="cart-badge">0</span>
+      </a>
+    </nav>
+    <button class="menu-btn" aria-label="Men&uacute;">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="checkout-page">
+    <div class="wrap">
+      <div id="checkout-content"></div>
+    </div>
+  </section>
+</main>
+
+<template id="tpl-checkout">
+  <div class="checkout-layout">
+    <div class="form-col">
+      <h1>Direcci&oacute;n</h1>
+      <p class="subtitle">Ingresa tu direcci&oacute;n de env&iacute;o.</p>
+
+      <h3 class="section-title">Direcci&oacute;n de env&iacute;o</h3>
+      <form id="address-form" novalidate>
+        <div class="form-row two">
+          <div class="form-field"><label for="f-nombre">Nombre</label><input type="text" id="f-nombre" name="nombre" placeholder="Nombre" required /></div>
+          <div class="form-field"><label for="f-apellido">Apellido</label><input type="text" id="f-apellido" name="apellido" placeholder="Apellido" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label for="f-empresa">Empresa (opcional)</label><input type="text" id="f-empresa" name="empresa" placeholder="Nombre de la empresa" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label for="f-calle">Calle y n&uacute;mero</label><input type="text" id="f-calle" name="calle" placeholder="Calle y n&uacute;mero" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label for="f-colonia">Colonia / Interior (opcional)</label><input type="text" id="f-colonia" name="colonia" placeholder="Colonia o n&uacute;mero interior" /></div>
+        </div>
+        <div class="form-row three">
+          <div class="form-field"><label for="f-ciudad">Ciudad</label><input type="text" id="f-ciudad" name="ciudad" placeholder="Ciudad" required /></div>
+          <div class="form-field"><label for="f-estado">Estado</label><input type="text" id="f-estado" name="estado" placeholder="Estado" required /></div>
+          <div class="form-field"><label for="f-cp">C&oacute;digo postal</label><input type="text" id="f-cp" name="cp" placeholder="C&oacute;digo postal" required inputmode="numeric" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label for="f-pais">Pa&iacute;s</label>
+            <select id="f-pais" name="pais" required>
+              <option value="MX" selected>M&eacute;xico</option>
+              <option value="US">Estados Unidos</option>
+              <option value="CA">Canad&aacute;</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label for="f-tel">Tel&eacute;fono</label><input type="tel" id="f-tel" name="telefono" placeholder="+52 55 0000 0000" required /></div>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="f-billing-same" checked />
+          La direcci&oacute;n de facturaci&oacute;n es igual a la de env&iacute;o
+        </label>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f-email">Correo electr&oacute;nico</label>
+            <input type="email" id="f-email" name="email" placeholder="tu@correo.com" required />
+            <p class="helper-text">Recibir&aacute;s actualizaciones de tu pedido en este correo.</p>
+          </div>
+        </div>
+
+        <button class="continue-btn" type="submit">Continuar</button>
+      </form>
+    </div>
+
+    <aside class="order-col">
+      <h2>Resumen del pedido</h2>
+      <div id="order-items"></div>
+      <div class="summary-totals">
+        <div class="row"><span>Subtotal</span><span id="sum-subtotal">$0.00</span></div>
+        <div class="row"><span>Env&iacute;o DHL Express</span><span class="ok">Gratuito</span></div>
+        <div class="row"><span>Descuento</span><span class="discount-amt" id="sum-discount">$0.00</span></div>
+        <div class="row total"><strong>Total</strong><strong id="sum-total">$0.00</strong></div>
+        <button class="add-code-link" type="button" id="add-code">Agregar c&oacute;digo de descuento</button>
+      </div>
+    </aside>
+  </div>
+</template>
+
+<template id="tpl-shipping">
+  <div class="checkout-layout">
+    <div class="form-col">
+      <h1>Env&iacute;o</h1>
+      <p class="subtitle">Selecciona un m&eacute;todo de env&iacute;o.</p>
+
+      <form id="shipping-form" novalidate>
+        <label class="ship-option selected" id="opt-express">
+          <input type="radio" name="shipping" value="express" checked />
+          <span class="ship-radio"><span></span></span>
+          <span class="ship-name">Env&iacute;o express</span>
+          <span class="ship-price-ok">Gratuito</span>
+        </label>
+
+        <div class="discount-card">
+          <svg class="tag-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          <div class="discount-text">
+            <span>&iquest;Tienes un c&oacute;digo de descuento?</span>
+            <button type="button" class="add-code-btn" id="add-code-ship">+ Agregar c&oacute;digo de descuento</button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a class="back-link" href="checkout.html?step=address">Atr&aacute;s</a>
+          <button class="continue-btn" type="submit">Continuar</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="order-col">
+      <h2>Resumen del pedido</h2>
+      <div id="order-items-ship"></div>
+      <div class="summary-totals">
+        <div class="row"><span>Subtotal</span><span id="sum-subtotal-ship">$0.00</span></div>
+        <div class="row"><span>Env&iacute;o DHL Express</span><span class="ok">Gratuito</span></div>
+        <div class="row"><span>Descuento</span><span class="discount-amt" id="sum-discount-ship">$0.00</span></div>
+        <div class="row total"><strong>Total</strong><strong id="sum-total-ship">$0.00</strong></div>
+        <button class="add-code-link" type="button" id="add-code-side">Agregar c&oacute;digo de descuento</button>
+      </div>
+    </aside>
+  </div>
+</template>
+
+<template id="tpl-payment">
+  <div class="checkout-layout">
+    <div class="form-col">
+      <h1>Pago</h1>
+      <p class="subtitle">Selecciona un m&eacute;todo de pago. No se te cobrar&aacute; hasta que confirmes tu pedido.</p>
+
+      <div class="pay-option">
+        <div class="pay-head">
+          <span class="wa-icon-bg">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          </span>
+          <div>
+            <h3>Pago por WhatsApp</h3>
+            <p>Por favor cont&aacute;ctanos por WhatsApp para completar tu pago de la manera m&aacute;s conveniente.</p>
+          </div>
+        </div>
+        <div class="pay-phone">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>+52 446 477 6696</span>
+        </div>
+        <a class="wa-cta" id="wa-cta" href="#" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Contactar por WhatsApp
+        </a>
+      </div>
+
+      <div class="form-actions center">
+        <a class="back-link" href="checkout.html?step=shipping">Atr&aacute;s</a>
+      </div>
+    </div>
+
+    <aside class="order-col">
+      <h2>Resumen del pedido</h2>
+      <div id="order-items-pay"></div>
+      <div class="summary-totals">
+        <div class="row"><span>Subtotal</span><span id="sum-subtotal-pay">$0.00</span></div>
+        <div class="row"><span>Env&iacute;o DHL Express</span><span class="ok">Gratuito</span></div>
+        <div class="row"><span>Descuento</span><span class="discount-amt" id="sum-discount-pay">$0.00</span></div>
+        <div class="row total"><strong>Total</strong><strong id="sum-total-pay">$0.00</strong></div>
+        <button class="add-code-link" type="button" id="add-code-pay">Agregar c&oacute;digo de descuento</button>
+      </div>
+    </aside>
+  </div>
+</template>
+
+<template id="tpl-empty">
+  <div class="empty-checkout">
+    <h2>No hay nada en tu carrito</h2>
+    <p>Agrega productos desde el <a href="catalogo.html">catálogo</a> para continuar.</p>
+  </div>
+</template>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">ciencia sana<span class="r">&reg;</span></a>
+        <p>P&eacute;ptidos de grado investigaci&oacute;n y f&oacute;rmulas de bienestar, en vial y c&aacute;psulas, con pureza verificada por terceros.</p>
+        <p class="addr">Ciudad de M&eacute;xico, M&eacute;xico<br />hola@cienciasana.com</p>
+      </div>
+      <div class="foot-col"><h4>Navegaci&oacute;n</h4><a href="index.html">Inicio</a><a href="catalogo.html">Cat&aacute;logo</a><a href="index.html#preguntas">Preguntas</a><a href="index.html#contacto">Contacto</a></div>
+      <div class="foot-col"><h4>Legal</h4><a href="#">Privacidad</a><a href="#">T&eacute;rminos</a><a href="#">Cookies</a></div>
+      <div class="foot-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Env&iacute;os</a><a href="#">Garant&iacute;a</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; 2026 ciencia sana. Todos los derechos reservados.</span>
+      <span>Hecho en M&eacute;xico</span>
+    </div>
+    <p class="disclaimer">L&iacute;nea de viales: compuestos de referencia para uso exclusivo en investigaci&oacute;n cient&iacute;fica. No para diagn&oacute;stico, tratamiento ni consumo humano. Los suplementos dietarios no son medicamentos y su consumo no cura ni previene enfermedades.</p>
+  </div>
+</footer>
+
+<script src="products.js"></script>
+<script>
+  function loadCart() { try { return JSON.parse(localStorage.getItem('cs_cart') || '[]'); } catch (e) { return []; } }
+  function fmt(n) { return '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  var state = { discount: 0 };
+
+  function renderBadge() {
+    var cart = loadCart();
+    var total = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+    var badge = document.getElementById('cart-badge');
+    badge.textContent = total;
+    badge.classList.toggle('hidden', total === 0);
+  }
+
+  function getStep() {
+    var s = new URLSearchParams(window.location.search).get('step');
+    if (s === 'shipping') return 'shipping';
+    if (s === 'payment') return 'payment';
+    return 'address';
+  }
+
+  var WA_PHONE = '524464776696';
+
+  function buildWhatsAppUrl(cart) {
+    var subtotal = calcSubtotal(cart);
+    var total = subtotal - (subtotal * state.discount);
+    var addr = JSON.parse(localStorage.getItem('cs_address') || '{}');
+    var lines = ['Hola ciencia sana, quiero confirmar mi pedido:', ''];
+    cart.forEach(function(item) {
+      lines.push('• ' + item.qty + 'x ' + item.name + ' ' + item.dose + ' — ' + fmt(item.price * item.qty));
+    });
+    lines.push('');
+    if (state.discount > 0) lines.push('Descuento aplicado: 10%');
+    lines.push('Total: ' + fmt(total));
+    if (addr.nombre) {
+      lines.push('');
+      lines.push('Datos de envío:');
+      lines.push(addr.nombre + ' ' + (addr.apellido || ''));
+      if (addr.calle) lines.push(addr.calle);
+      if (addr.colonia) lines.push(addr.colonia);
+      var loc = [addr.ciudad, addr.estado, addr.cp].filter(Boolean).join(', ');
+      if (loc) lines.push(loc);
+      if (addr.telefono) lines.push('Tel: ' + addr.telefono);
+      if (addr.email) lines.push('Email: ' + addr.email);
+    }
+    return 'https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(lines.join('\n'));
+  }
+
+  function loadDiscount() {
+    var saved = localStorage.getItem('cs_discount');
+    if (saved === 'CIENCIA10') state.discount = 0.10;
+  }
+
+  function calcSubtotal(cart) {
+    return cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
+  }
+
+  function renderSummary(cart, suffix) {
+    suffix = suffix || '';
+    var items = document.getElementById('order-items' + suffix);
+    items.innerHTML = '';
+    cart.forEach(function(item) {
+      var line = item.price * item.qty;
+      var el = document.createElement('div');
+      el.className = 'summary-item';
+      el.innerHTML =
+        '<div class="thumb"><img src="' + item.image + '" alt="' + item.name + '"/></div>' +
+        '<div class="info"><h4>' + item.name + '</h4><span>' + item.name + ' ' + item.dose + '</span><span>Cantidad: ' + item.qty + '</span></div>' +
+        '<span class="price">' + fmt(line) + '</span>';
+      items.appendChild(el);
+    });
+    updateTotals(cart, suffix);
+  }
+
+  function updateTotals(cart, suffix) {
+    suffix = suffix || '';
+    var subtotal = calcSubtotal(cart);
+    var discountAmt = subtotal * state.discount;
+    document.getElementById('sum-subtotal' + suffix).textContent = fmt(subtotal);
+    var discEl = document.getElementById('sum-discount' + suffix);
+    if (discEl) discEl.textContent = discountAmt > 0 ? '−' + fmt(discountAmt) : '$0.00';
+    document.getElementById('sum-total' + suffix).textContent = fmt(subtotal - discountAmt);
+  }
+
+  function applyDiscountPrompt(cart, suffix) {
+    var code = prompt('Ingresa tu código de descuento:');
+    if (!code) return;
+    if (code.trim().toUpperCase() === 'CIENCIA10') {
+      state.discount = 0.10;
+      localStorage.setItem('cs_discount', 'CIENCIA10');
+      updateTotals(cart, suffix);
+      alert('Código aplicado: 10% de descuento.');
+    } else {
+      alert('Código no válido.');
+    }
+  }
+
+  function wireAddress(cart) {
+    renderSummary(cart, '');
+    var saved = JSON.parse(localStorage.getItem('cs_address') || 'null');
+    if (saved) {
+      ['nombre','apellido','empresa','calle','colonia','ciudad','estado'].forEach(function(k) {
+        var el = document.getElementById('f-' + k); if (el && saved[k]) el.value = saved[k];
+      });
+      if (saved.cp) document.getElementById('f-cp').value = saved.cp;
+      if (saved.telefono) document.getElementById('f-tel').value = saved.telefono;
+      if (saved.email) document.getElementById('f-email').value = saved.email;
+      if (saved.pais) document.getElementById('f-pais').value = saved.pais;
+    }
+    document.getElementById('add-code').addEventListener('click', function() { applyDiscountPrompt(cart, ''); });
+    document.getElementById('address-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
+      var data = {
+        nombre: document.getElementById('f-nombre').value,
+        apellido: document.getElementById('f-apellido').value,
+        empresa: document.getElementById('f-empresa').value,
+        calle: document.getElementById('f-calle').value,
+        colonia: document.getElementById('f-colonia').value,
+        ciudad: document.getElementById('f-ciudad').value,
+        estado: document.getElementById('f-estado').value,
+        cp: document.getElementById('f-cp').value,
+        pais: document.getElementById('f-pais').value,
+        telefono: document.getElementById('f-tel').value,
+        email: document.getElementById('f-email').value
+      };
+      localStorage.setItem('cs_address', JSON.stringify(data));
+      window.location.href = 'checkout.html?step=shipping';
+    });
+  }
+
+  function wireShipping(cart) {
+    renderSummary(cart, '-ship');
+    document.getElementById('add-code-ship').addEventListener('click', function() { applyDiscountPrompt(cart, '-ship'); });
+    document.getElementById('add-code-side').addEventListener('click', function() { applyDiscountPrompt(cart, '-ship'); });
+    document.getElementById('shipping-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.location.href = 'checkout.html?step=payment';
+    });
+  }
+
+  function wirePayment(cart) {
+    renderSummary(cart, '-pay');
+    document.getElementById('add-code-pay').addEventListener('click', function() { applyDiscountPrompt(cart, '-pay'); });
+    var waBtn = document.getElementById('wa-cta');
+    waBtn.href = buildWhatsAppUrl(cart);
+  }
+
+  function renderCheckout() {
+    var cart = loadCart();
+    var container = document.getElementById('checkout-content');
+    container.innerHTML = '';
+    if (cart.length === 0) {
+      container.appendChild(document.getElementById('tpl-empty').content.cloneNode(true));
+      return;
+    }
+    loadDiscount();
+    var step = getStep();
+    if (step === 'shipping') {
+      container.appendChild(document.getElementById('tpl-shipping').content.cloneNode(true));
+      wireShipping(cart);
+    } else if (step === 'payment') {
+      container.appendChild(document.getElementById('tpl-payment').content.cloneNode(true));
+      wirePayment(cart);
+    } else {
+      container.appendChild(document.getElementById('tpl-checkout').content.cloneNode(true));
+      wireAddress(cart);
+    }
+  }
+
+  renderBadge();
+  renderCheckout();
+</script>
+
+</body>
+</html>
